@@ -2,11 +2,12 @@
   <!-- Right: Login Form -->
   <div class="lg:p-36 md:p-52 sm:20 p-8 w-full lg:w-1/2">
     <h1 class="text-2xl font-semibold mb-4">Iniciar sesion</h1>
-    <form action="#" method="POST">
+    <form @submit.prevent="formData" method="POST">
       <!-- Username Input -->
       <div class="mb-4">
         <label for="username" class="block text-gray-600 font-bold">Usuario</label>
         <input
+          v-model="data.user"
           type="text"
           id="username"
           name="username"
@@ -18,6 +19,7 @@
       <div class="mb-4">
         <label for="password" class="block text-gray-600 font-bold">Clave</label>
         <input
+          v-model="data.password"
           type="password"
           id="password"
           name="password"
@@ -27,7 +29,13 @@
       </div>
       <!-- Remember Me Checkbox -->
       <div class="mb-4 flex items-center">
-        <input type="checkbox" id="remember" name="remember" class="text-blue-500" />
+        <input
+          v-model="data.rememberMe"
+          type="checkbox"
+          id="remember"
+          name="remember"
+          class="text-blue-500"
+        />
         <label for="remember" class="text-gray-600 ml-2">Remember Me</label>
       </div>
       <!-- Forgot Password Link -->
@@ -48,3 +56,18 @@
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { reactive } from 'vue';
+
+const data = reactive({
+  user: '',
+  password: '',
+  rememberMe: false,
+});
+const formData = () => {
+  console.log(data.user);
+  console.log(data.password);
+  console.log(data.rememberMe);
+};
+</script>
