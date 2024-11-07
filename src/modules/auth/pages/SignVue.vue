@@ -7,6 +7,7 @@
       <div class="">
         <label for="name" class="block text-gray-600 font-bold">Nombre</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.name"
           ref="nameInputElement"
           type="text"
@@ -20,6 +21,7 @@
       <div class="mb-2">
         <label for="apellido" class="block text-gray-600 font-bold">Apellido</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.lastname"
           ref="lastNameInputElement"
           type="text"
@@ -33,6 +35,7 @@
       <div class="">
         <label for="cedula" class="block text-gray-600 font-bold">Cedula</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.ci"
           ref="ciInputElement"
           type="text"
@@ -45,6 +48,7 @@
       <div class="mb-2">
         <label for="username" class="block text-gray-600 font-bold">Usuario</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.user"
           ref="userInputElement"
           type="text"
@@ -59,6 +63,7 @@
       <div class="mb-2">
         <label for="password" class="block text-gray-600 font-bold">Clave</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.password"
           ref="passwordInputElement"
           type="password"
@@ -71,6 +76,7 @@
       <div class="mb-2">
         <label for="password" class="block text-gray-600 font-bold">Repetir clave</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.passwordRepeat"
           ref="passwordRepeatInputElement"
           type="password"
@@ -83,7 +89,8 @@
       <!-- Login Button -->
       <button
         type="submit"
-        class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
+        v-bind:disabled="evaluatebooleanButton()"
+        v-bind:class="evaluateButton()"
       >
         Login
       </button>
@@ -99,6 +106,8 @@
 import { reactive, ref } from 'vue';
 import { createUser } from '../actions';
 import { useToast } from 'vue-toastification';
+
+const toast = useToast();
 
 const data = reactive({
   name: '',
@@ -116,11 +125,49 @@ const passwordInputElement = ref<HTMLInputElement | null>(null);
 const passwordRepeatInputElement = ref<HTMLDivElement | null>(null);
 const father = ref<HTMLElement | null>(null);
 
-const toast = useToast();
+const buttonChange: [boolean, number] = [false, 0];
+const count = ref(0);
+
+const evaluatebooleanButton = () => {
+  if (count.value === 6) {
+    return false;
+  } else {
+    return true;
+  }
+};
+
+const evaluateIfEmpty = () => {
+  const arrayEmpty: string[] = [
+    data.name,
+    data.lastname,
+    data.ci,
+    data.user,
+    data.password,
+    data.passwordRepeat,
+  ];
+  count.value = 0;
+  for (let i = 0; i < arrayEmpty.length; i++) {
+    if (arrayEmpty[i].trim() === '') {
+      buttonChange[i] = 0;
+      count.value = 0;
+      break;
+    } else {
+      count.value = count.value + 1;
+      buttonChange[1]++;
+    }
+  }
+
+  buttonChange[1] = 0;
+};
+
+const evaluateButton = () => {
+  return count.value === 6
+    ? 'bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full'
+    : 'bg-gray-300 text-white font-semibold rounded-md py-2 px-4 w-full';
+};
 
 const formData = async () => {
   // console.log(Object.keys(data));
-
   const array: string[] = [
     data.name,
     data.lastname,
@@ -137,16 +184,23 @@ const formData = async () => {
     passwordInputElement,
     passwordRepeatInputElement,
   ];
+  console.log(array[0]);
 
   for (let i = 0; i < array.length; i++) {
     if (array[i].trim() === '') {
+      buttonChange[1] = 0;
       return arrayInputs[i].value?.focus();
+    } else {
+      buttonChange[1] = buttonChange[1] + 1;
     }
   }
 
   const r = await createUser(parseInt(data.ci), data.name, data.lastname, data.user, data.password);
-  console.log(r);
 
-  toast.success('Usuario/contraseña no son correctos');
+  if (r === 'Usuario creado') {
+    return toast.success(r);
+  } else {
+    return toast.error(r);
+  }
 };
 </script>
