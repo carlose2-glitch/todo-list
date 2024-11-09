@@ -88,11 +88,16 @@
       </div>
       <!-- Login Button -->
       <button
+        class="flex justify-center"
         type="submit"
         v-bind:disabled="evaluatebooleanButton()"
         v-bind:class="evaluateButton()"
       >
-        Login
+        <svg
+          v-show="showSpin"
+          class="animate-spin h-5 w-5 mr-3 rounded-full border-gray-400 border-2 border-b-white"
+        ></svg>
+        {{ showCharger }}
       </button>
     </form>
     <!-- Sign up  Link -->
@@ -110,6 +115,8 @@ import { useRouter } from 'vue-router';
 
 const router = useRouter();
 const toast = useToast();
+const showSpin = ref<boolean>(false);
+const showCharger = ref<string>('Login');
 
 const data = reactive({
   name: '',
@@ -196,12 +203,17 @@ const formData = async () => {
     }
   }
 
+  buttonChange[1] === 6 ? (showSpin.value = true) : false;
+  buttonChange[1] === 6 ? (showCharger.value = '...Wait') : (showCharger.value = 'Login');
+
   const r = await createUser(parseInt(data.ci), data.name, data.lastname, data.user, data.password);
 
   if (r === 'Usuario creado') {
     toast.success(r);
     router.replace({ name: 'home' });
   } else {
+    showSpin.value = false;
+    showCharger.value = 'Login';
     return toast.error(r);
   }
 };
