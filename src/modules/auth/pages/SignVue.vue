@@ -106,7 +106,9 @@
 import { reactive, ref } from 'vue';
 import { createUser } from '../actions';
 import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const toast = useToast();
 
 const data = reactive({
@@ -184,7 +186,6 @@ const formData = async () => {
     passwordInputElement,
     passwordRepeatInputElement,
   ];
-  console.log(array[0]);
 
   for (let i = 0; i < array.length; i++) {
     if (array[i].trim() === '') {
@@ -198,7 +199,8 @@ const formData = async () => {
   const r = await createUser(parseInt(data.ci), data.name, data.lastname, data.user, data.password);
 
   if (r === 'Usuario creado') {
-    return toast.success(r);
+    toast.success(r);
+    router.replace({ name: 'home' });
   } else {
     return toast.error(r);
   }
