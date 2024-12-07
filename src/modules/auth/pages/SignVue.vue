@@ -208,8 +208,10 @@ const formData = async () => {
 
   const r = await createUser(parseInt(data.ci), data.name, data.lastname, data.user, data.password);
 
-  if (r === 'Usuario creado') {
-    toast.success(r);
+  if (r.r === 'Usuario creado') {
+    toast.success(r.r);
+    localStorage.setItem('token', r.token);
+
     router.replace({ name: 'home' });
   } else {
     showSpin.value = false;

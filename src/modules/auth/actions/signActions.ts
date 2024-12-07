@@ -22,9 +22,35 @@ export const createUser = async (
   password: string,
 ) => {
   try {
-    const { data } = await usersApis.post('/users', { ci, name, lastname, user, password });
+    const { data } = await usersApis.post(
+      '/users',
+      { ci, name, lastname, user, password },
+      { withCredentials: true },
+    );
     return data;
   } catch (error) {
     throw new Error('error interno');
+  }
+};
+
+//guardar cookie
+/*
+export const saveCookie = async (token: string) => {
+  try {
+    const { data } = await usersApis.get(`/users/${token}`);
+    return data;
+  } catch (error) {
+    throw new Error('error');
+  }
+};*/
+
+//extraer valores del local storage
+
+export const extractLocalStorage = async (token: string) => {
+  try {
+    const { data } = await usersApis.get(`/users/${token}`);
+    return data;
+  } catch (error) {
+    throw new Error('error');
   }
 };
