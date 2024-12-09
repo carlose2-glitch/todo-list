@@ -7,6 +7,7 @@
       <div class="mb-4">
         <label for="username" class="block text-gray-600 font-bold">Usuario</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.user"
           type="text"
           id="username"
@@ -19,6 +20,7 @@
       <div class="mb-4">
         <label for="password" class="block text-gray-600 font-bold">Clave</label>
         <input
+          v-on:input="evaluateIfEmpty()"
           v-model="data.password"
           type="password"
           id="password"
@@ -44,6 +46,8 @@
       </div>
       <!-- Login Button -->
       <button
+        v-bind:disabled="habilityButton"
+        v-bind:class="colorButton()"
         type="submit"
         class="bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full"
       >
@@ -58,16 +62,70 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive } from 'vue';
+import { reactive, ref } from 'vue';
+import { loginUser } from '../actions/loginActions';
+import { useToast } from 'vue-toastification';
+import { useRouter } from 'vue-router';
+
+const router = useRouter();
+const toast = useToast();
+const user = ref('');
+const pass = ref('');
 
 const data = reactive({
-  user: '',
-  password: '',
+  user: user,
+  password: pass,
   rememberMe: false,
 });
-const formData = () => {
+
+const habilityButton = ref<boolean>(true);
+
+//cambia el color del boton de acuerdo al valor boolean
+const colorButton = () => {
+  return habilityButton.value === true
+    ? 'bg-gray-300 text-white hover:bg-gray-500 font-semibold rounded-md py-2 px-4 w-full'
+    : 'bg-blue-500 hover:bg-blue-600 text-white font-semibold rounded-md py-2 px-4 w-full';
+};
+
+//evalua que ninguno de los inputs esten vacios
+const evaluateIfEmpty = () => {
+  if (data.user.trim() !== '' && data.password.trim() !== '') {
+    habilityButton.value = false;
+  } else {
+    habilityButton.value = true;
+  }
+};
+
+const formData = async () => {
   console.log(data.user);
   console.log(data.password);
   console.log(data.rememberMe);
+
+  const form: readonly [string, string, boolean] = [data.user, data.password, data.rememberMe];
+
+  const r = await loginUser(form[0], form[1]);
+
+  if (r === 'Contraseña incorrecta' || r === 'Usuario no existe') {
+    toast.error(r);
+  } else {
+    localStorage.setItem('token', r);
+
+    if (form[2] === true) {
+      localStorage.setItem('user', JSON.stringify({ user: form[0], pass: form[1] }));
+    } else {
+      localStorage.removeItem('user');
+    }
+
+    router.replace({ name: 'home' });
+  }
 };
+
+const extractUser = JSON.parse(localStorage.getItem('user'));
+
+if (extractUser !== null) {
+  user.value = extractUser.user;
+  pass.value = extractUser.pass;
+}
+
+habilityButton.value = user.value.trim() === '' && pass.value.trim() === '' ? true : false;
 </script>
