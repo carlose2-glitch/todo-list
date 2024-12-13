@@ -1,7 +1,9 @@
 <template>
-  <div v-if="value">hola</div>
+  <div v-if="value">
+    <HorizontalMenu />
+  </div>
 
-  <div v-else class="flex flex-col w-full bg-slate-500 h-screen">
+  <div v-else class="flex flex-col w-full bg-slate-400 h-screen">
     <headerPage />
     <mainPage />
   </div>
@@ -10,6 +12,7 @@
 <script lang="ts" setup>
 import { extractLocalStorage } from '@/modules/auth/actions';
 import headerPage from '@/modules/common/components/headerPage.vue';
+import HorizontalMenu from '@/modules/common/components/horizontalMenu.vue';
 import mainPage from '@/modules/common/components/mainPage.vue';
 import { ref } from 'vue';
 
