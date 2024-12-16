@@ -1,6 +1,9 @@
 <template>
-  <div v-if="value">
-    <HorizontalMenu />
+  <div class="bg-gray-200 h-screen w-full flex flex-col" v-if="value">
+    <!-- Header -->
+    <horizontal-menu />
+    <!-- Main -->
+    <main-user />
   </div>
 
   <div v-else class="flex flex-col w-full bg-slate-400 h-screen">
@@ -14,6 +17,7 @@ import { extractLocalStorage } from '@/modules/auth/actions';
 import headerPage from '@/modules/common/components/headerPage.vue';
 import HorizontalMenu from '@/modules/common/components/horizontalMenu.vue';
 import mainPage from '@/modules/common/components/mainPage.vue';
+import MainUser from '@/modules/common/components/MainUser.vue';
 import { ref } from 'vue';
 
 const value = ref<boolean>(false);

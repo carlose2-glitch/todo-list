@@ -46,7 +46,7 @@
           />
         </svg>
       </button>
-      <div v-bind:class="habilityButton()" class="animate-buttonHamburguer">
+      <div v-bind:class="habilityButton()">
         <ul
           class="font-medium flex flex-col p-4 md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 rtl:space-x-reverse md:mt-0 md:border-0 md:bg-white dark:bg-gray-800 md:dark:bg-gray-900 dark:border-gray-700 items-center"
         >
@@ -110,7 +110,7 @@ const showMenu = () => {
 
 const habilityButton = () => {
   return clickNav.value === true
-    ? 'hidden w-full md:block md:w-auto'
-    : 'block w-full md:block md:w-auto';
+    ? 'hidden w-full md:block md:w-auto animate-buttonHamburguer'
+    : 'block md:w-auto animate-buttonHamburguer absolute top-1/4 w-[90%]';
 };
 </script>
