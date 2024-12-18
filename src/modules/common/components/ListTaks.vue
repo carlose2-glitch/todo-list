@@ -5,28 +5,6 @@
         <div>
           <h1 class="text-3xl font-medium">Lista de tareas</h1>
         </div>
-        <div class="inline-flex space-x-2 items-center">
-          <a
-            href="#"
-            class="p-2 border border-slate-200 rounded-md inline-flex space-x-1 items-center hover:bg-slate-200"
-          >
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke-width="1.5"
-              stroke="currentColor"
-              class="w-4 h-4"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                d="M8.25 6.75h12M8.25 12h12m-12 5.25h12M3.75 6.75h.007v.008H3.75V6.75zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zM3.75 12h.007v.008H3.75V12zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0zm-.375 5.25h.007v.008H3.75v-.008zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z"
-              />
-            </svg>
-            <span class="text-sm hidden md:block">Ultimas tareas</span>
-          </a>
-        </div>
       </div>
 
       <div id="tasks" class="my-5">
@@ -42,7 +20,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6 text-slate-500"
+                class="w-6 h-6 text-slate-500 cursor-pointer hover:text-slate-700"
               >
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
@@ -78,7 +56,7 @@
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6 text-slate-500"
+                class="w-6 h-6 text-slate-500 cursor-pointer hover:text-slate-700"
               >
                 <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
               </svg>
@@ -109,12 +87,14 @@
           <div class="inline-flex items-center space-x-2">
             <div>
               <svg
+                v-on:click="check"
+                v-if="booleanCheck"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke-width="1.5"
                 stroke="currentColor"
-                class="w-6 h-6 text-slate-500 hover:text-indigo-600 hover:cursor-pointer"
+                class="w-6 h-6 text-slate-500 hover:scale-125 transition hover:text-indigo-600 hover:cursor-pointer"
               >
                 <path
                   stroke-linecap="round"
@@ -122,17 +102,31 @@
                   d="M9 12.75L11.25 15 15 9.75M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
+
+              <svg
+                v-else
+                v-on:click="check"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-6 h-6 text-slate-500 cursor-pointer hover:scale-125 transition hover:text-slate-700"
+              >
+                <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12.75l6 6 9-13.5" />
+              </svg>
             </div>
-            <div>Magic stuff</div>
+            <div v-bind:class="changeStyle()">Magic stuff</div>
           </div>
           <div>
             <svg
+              v-on:click="deleteTask"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
               stroke-width="1.5"
               stroke="currentColor"
-              class="w-4 h-4 text-slate-500 hover:text-slate-700 hover:cursor-pointer"
+              class="w-4 h-4 text-slate-500 hover:scale-125 transition hover:text-slate-700 hover:cursor-pointer"
             >
               <path
                 stroke-linecap="round"
@@ -223,7 +217,24 @@
           </div>
         </div>
       </div>
-      <p class="text-xs text-slate-500 text-center">Last updated 12 minutes ago</p>
     </div>
   </div>
 </template>
+
+<script lang="ts" setup>
+import { ref } from 'vue';
+
+const booleanCheck = ref<boolean>(true);
+
+const check = () => {
+  booleanCheck.value = !booleanCheck.value;
+};
+
+const changeStyle = () => {
+  return booleanCheck.value === true ? 'text-black font-bold' : 'text-slate-500 line-through';
+};
+
+const deleteTask = () => {
+  console.log('eliminar');
+};
+</script>
