@@ -1,6 +1,6 @@
 <template>
   <svg
-    v-on:click="add"
+    @click="$emit('click')"
     class="w-16 h-16 cursor-pointer bottom-4 absolute hover:scale-110 transition"
     viewBox="0 0 24 24"
     fill="none"
@@ -21,7 +21,5 @@
 </template>
 
 <script lang="ts" setup>
-const add = () => {
-  console.log('agregar');
-};
+defineEmits(['click']);
 </script>
