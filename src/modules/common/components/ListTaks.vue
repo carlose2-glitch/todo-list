@@ -13,14 +13,14 @@
       >
         <!-- tasks -->
         <div
-          id="task"
           class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4 border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150"
           v-for="task in colageTaks.tasks.value"
+          v-bind:key="task.task"
         >
           <div class="inline-flex items-center space-x-2">
             <div>
               <svg
-                v-on:click="task.check = false"
+                v-on:click="task.check = check(task.check)"
                 v-if="task.check"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
@@ -38,7 +38,7 @@
 
               <svg
                 v-else
-                v-on:click="task.check = true"
+                v-on:click="task.check = check(task.check)"
                 xmlns="http://www.w3.org/2000/svg"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -76,12 +76,16 @@
 
 <script lang="ts" setup>
 import { extractTask } from '@/modules/projects/store/listTaks';
-import { ref } from 'vue';
 
-const booleanCheck = ref<boolean>(true);
+interface Props {
+  id: string;
+}
+
+const datas = defineProps<Props>();
 
 const check = (v: any) => {
-  booleanCheck.value = !v;
+  console.log(datas.id);
+  return (v = !v);
 };
 
 const changeStyle = (v: any) => {
@@ -93,6 +97,4 @@ const deleteTask = () => {
 };
 
 const colageTaks = extractTask();
-
-console.log(colageTaks.tasks.value);
 </script>

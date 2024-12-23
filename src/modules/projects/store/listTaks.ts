@@ -18,11 +18,22 @@ const initialApi = (): taskList[] => {
   ];
 };
 
+const projects = ref<taskList[]>(initialApi());
+
 export const extractTask = () => {
-  const projects = ref<taskList[]>(initialApi());
-  console.log(projects);
+  const addtask = (task: string, date: string, theme: string, check: boolean) => {
+    projects.value.push({
+      task: task,
+      date: date,
+      theme: theme,
+      check: check,
+    });
+
+    console.log(projects.value);
+  };
 
   return {
     tasks: computed(() => [...projects.value]),
+    addtask,
   };
 };

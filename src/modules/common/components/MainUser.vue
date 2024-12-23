@@ -1,6 +1,6 @@
 <template>
   <div class="w-full flex items-center flex-col">
-    <list-taks />
+    <list-taks :id="id" />
 
     <icons-vue @click="open = true" />
 
