@@ -3,7 +3,7 @@
     <!-- Header -->
     <horizontal-menu />
     <!-- Main -->
-    <main-user />
+    <main-user :id="id" />
   </div>
 
   <div v-else class="flex flex-col w-full bg-slate-400 h-screen">
@@ -19,7 +19,7 @@ import HorizontalMenu from '@/modules/common/components/horizontalMenu.vue';
 import mainPage from '@/modules/common/components/mainPage.vue';
 import MainUser from '@/modules/common/components/MainUser.vue';
 import { ref } from 'vue';
-
+const id = ref<string>('');
 const value = ref<boolean>(false);
 
 const verificationLocalStorage = async () => {
@@ -28,7 +28,7 @@ const verificationLocalStorage = async () => {
   if (extractLocal) {
     const consult = await extractLocalStorage(extractLocal);
 
-    console.log(consult);
+    id.value = consult.id;
     value.value = true;
   } else {
     value.value = false;

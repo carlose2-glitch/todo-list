@@ -1,17 +1,16 @@
 <template>
   <div
     v-if="open"
-    class="flex overflow-y-auto overflow-x-hidden fixed top-0 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-[calc(100%-1rem)] max-h-full"
+    class="flex overflow-y-auto overflow-x-hidden fixed top-0 bg-gray-500/75 right-0 left-0 z-50 justify-center items-center w-full md:inset-0 h-screen max-h-full"
   >
-    <form @submit.prevent="submitValue">
-      <div class="relative p-4 w-full max-w-2xl max-h-full">
+    <form @submit.prevent="submitValue" class="w-full flex justify-center">
+      <div class="relative p-4 w-[90%] md:w-[42rem] max-h-full animate-buttonHamburguer">
         <!-- Modal content -->
         <div class="relative bg-white rounded-lg shadow dark:bg-gray-700">
           <!-- Modal header -->
           <div
             class="flex items-center justify-between p-4 md:p-5 border-b rounded-t dark:border-gray-600"
           >
-            <h3 class="text-xl font-semibold text-gray-900 dark:text-white">Terms of Service</h3>
             <button
               @click="$emit('close')"
               type="button"
@@ -38,35 +37,64 @@
           </div>
           <!-- Modal body -->
           <div class="p-4 md:p-5 space-y-4">
-            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              With less than a month to go before the European Union enacts new consumer privacy
-              laws for its citizens, companies around the world are updating their terms of service
-              agreements to comply.
-            </p>
-            <p class="text-base leading-relaxed text-gray-500 dark:text-gray-400">
-              The European Union’s General Data Protection Regulation (G.D.P.R.) goes into effect on
-              May 25 and is meant to ensure a common set of data rights in the European Union. It
-              requires organizations to notify users as soon as possible of high-risk data breaches
-              that could personally affect them.
-            </p>
+            <div class="mb-5">
+              <input
+                ref="inputRef"
+                required
+                v-model="data.task"
+                type="text"
+                name="tarea"
+                class="mt-1 px-3 py-2 bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+                placeholder="Ingresa tu tarea"
+              />
+            </div>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Tema</label>
+            <select
+              id="themes"
+              v-model="data.theme"
+              class="mt-1 px-3 py-2 font-bold bg-white border shadow-sm border-slate-300 placeholder-slate-400 focus:outline-none focus:border-sky-500 focus:ring-sky-500 block w-full rounded-md sm:text-sm focus:ring-1"
+            >
+              <option selected value="work">Trabajo</option>
+              <option value="personal">Personal</option>
+              <option value="wish">Deseo</option>
+              <option value="birthday">Cumpleaños</option>
+            </select>
+            <label class="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              >Fecha</label
+            >
+            <div class="relative max-w-sm">
+              <div class="absolute inset-y-0 start-0 flex items-center ps-3.5 pointer-events-none">
+                <svg
+                  class="w-4 h-4 text-gray-500 dark:text-gray-400"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                >
+                  <path
+                    d="M20 4a2 2 0 0 0-2-2h-2V1a1 1 0 0 0-2 0v1h-3V1a1 1 0 0 0-2 0v1H6V1a1 1 0 0 0-2 0v1H2a2 2 0 0 0-2 2v2h20V4ZM0 18a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V8H0v10Zm5-8h10a1 1 0 0 1 0 2H5a1 1 0 0 1 0-2Z"
+                  />
+                </svg>
+              </div>
+              <input
+                v-model="data.date"
+                id="default-datepicker"
+                type="date"
+                class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full ps-10 p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
+                placeholder="Select date"
+              />
+            </div>
           </div>
           <!-- Modal footer -->
           <div
-            class="flex items-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
+            class="flex items-center justify-center p-4 md:p-5 border-t border-gray-200 rounded-b dark:border-gray-600"
           >
             <button
               data-modal-hide="default-modal"
-              type="button"
+              type="submit"
               class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
             >
-              I accept
-            </button>
-            <button
-              data-modal-hide="default-modal"
-              type="button"
-              class="py-2.5 px-5 ms-3 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-blue-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-            >
-              Decline
+              Guardar
             </button>
           </div>
         </div>
@@ -76,15 +104,54 @@
 </template>
 
 <script lang="ts" setup>
+import { reactive, ref } from 'vue';
+
 interface Props {
   open: boolean;
+  id: string;
 }
 
-defineProps<Props>();
+const datas = defineProps<Props>();
 
 const emits = defineEmits<{
   close: [void];
 }>();
 
-const submitValue = () => {};
+interface values {
+  task: string;
+  theme: string;
+  date: string;
+}
+
+const task = ref<string>('');
+const theme = ref<string>('work');
+const date = ref<string>('');
+
+const data: values = reactive({
+  task: task,
+  theme: theme,
+  date: date,
+});
+const inputRef = ref<HTMLInputElement | null>(null);
+
+const submitValue = () => {
+  /*const date = new Date();
+  const day = date.getDate();
+  const month = date.getMonth() + 1;
+  const year = date.getFullYear();
+  const fullDate = day.toString() + '-' + month.toString() + '-' + year.toString();
+*/
+  if (data.task.trim() !== '' && data.date !== '') {
+    const invertDate = data.date.split('-').reverse().join('-');
+    console.log(invertDate);
+    console.log(datas.id);
+    data.task = '';
+    data.date = '';
+
+    emits('close');
+    return;
+  }
+  data.task = '';
+  inputRef.value?.focus();
+};
 </script>

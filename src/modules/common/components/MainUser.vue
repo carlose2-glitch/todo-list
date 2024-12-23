@@ -4,7 +4,7 @@
 
     <icons-vue @click="open = true" />
 
-    <modal-task :open="open" @close="open = false" />
+    <modal-task :open="open" @close="open = false" :id="id" />
   </div>
 </template>
 
@@ -15,4 +15,10 @@ import ListTaks from './ListTaks.vue';
 import ModalTask from './ModalTask.vue';
 
 const open = ref(false);
+
+interface Props {
+  id: string;
+}
+
+defineProps<Props>();
 </script>
