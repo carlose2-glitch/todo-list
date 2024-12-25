@@ -115,7 +115,14 @@ const datas = defineProps<Props>();
 
 const emits = defineEmits<{
   close: [void];
-  information: [iduser: string, task: string, date: string, theme: string, check: boolean];
+  information: [
+    _id: string,
+    iduser: string,
+    task: string,
+    date: string,
+    theme: string,
+    check: boolean,
+  ];
 }>();
 
 interface values {
@@ -147,7 +154,7 @@ const submitValue = () => {
     console.log(data.task);
     console.log(datas.id);
 
-    emits('information', datas.id, data.task, invertDate, data.theme, true);
+    emits('information', '', datas.id, data.task, invertDate, data.theme, true);
     data.task = '';
     data.date = '';
 

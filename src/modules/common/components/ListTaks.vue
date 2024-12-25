@@ -17,6 +17,7 @@
           class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4 border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150"
           v-for="task in colageTaks.tasks.value"
           v-bind:key="task.theme"
+          :id="task._id"
         >
           <div class="inline-flex items-center space-x-2">
             <div>
@@ -54,7 +55,7 @@
           </div>
           <div>
             <svg
-              v-on:click="deleteTask"
+              v-on:click="deleteTask(task._id)"
               xmlns="http://www.w3.org/2000/svg"
               fill="none"
               viewBox="0 0 24 24"
@@ -103,8 +104,8 @@ const changeStyle = (v: any) => {
   return v === true ? 'text-black font-bold' : 'text-slate-500 line-through';
 };
 
-const deleteTask = () => {
-  console.log('eliminar');
+const deleteTask = (id: string) => {
+  console.log(id);
 };
 
 const colageTaks = await extractTask(datas.id);
