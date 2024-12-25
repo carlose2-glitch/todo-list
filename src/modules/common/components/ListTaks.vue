@@ -12,10 +12,11 @@
         class="my-5 h-64 overflow-auto break-words scrollbar scrollbar-thumb-slate-600 scrollbar-thumb-rounded-full scrollbar-w-1"
       >
         <!-- tasks -->
+
         <div
           class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4 border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150"
           v-for="task in colageTaks.tasks.value"
-          v-bind:key="task.task"
+          v-bind:key="task.theme"
         >
           <div class="inline-flex items-center space-x-2">
             <div>
@@ -72,14 +73,24 @@
       </div>
     </div>
   </div>
+
+  <icons-vue @click="open = true" />
+
+  <modal-task @information="colageTaks.addTaskFront" :open="open" @close="open = false" :id="id" />
+  <!-- <modal-task :open="open" @close="open = false" :id="id" /> -->
 </template>
 
 <script lang="ts" setup>
 import { extractTask } from '@/modules/projects/store/listTaks';
+import { ref } from 'vue';
+import IconsVue from './IconsVue.vue';
+import ModalTask from './ModalTask.vue';
 
 interface Props {
   id: string;
 }
+
+const open = ref<boolean>(false);
 
 const datas = defineProps<Props>();
 
@@ -97,4 +108,6 @@ const deleteTask = () => {
 };
 
 const colageTaks = extractTask();
+
+console.log(colageTaks.tasks.value);
 </script>

@@ -1,4 +1,8 @@
+//import { createTask } from '@/modules/auth/actions';
+import { createTask, getTasks } from '@/modules/auth/actions';
+//import type { taskApi } from '@/modules/interfaces/getTaks.interfaces';
 import type { taskList } from '@/modules/interfaces/task.interfaces';
+
 import { computed, ref } from 'vue';
 
 const initialApi = (): taskList[] => {
@@ -18,22 +22,49 @@ const initialApi = (): taskList[] => {
   ];
 };
 
-const projects = ref<taskList[]>(initialApi());
+export const addTask = (
+  iduser: string,
+  task: string,
+  date: string,
+  theme: string,
+  check: boolean,
+) => {
+  return createTask(iduser, task, date, theme, check);
+};
 
 export const extractTask = () => {
-  const addtask = (task: string, date: string, theme: string, check: boolean) => {
+  //const extract: taskApi[] = await getTasks(id);
+  const projects = ref<taskList[]>(initialApi());
+
+  const addTaskFront = (task: string, date: string, theme: string, check: boolean) => {
     projects.value.push({
       task: task,
       date: date,
       theme: theme,
       check: check,
     });
+  };
+  /*  const addtask = (
+    //iduser: string,
+    task: string,
+    date: string,
+    theme: string,
+    check: boolean,
+  ) => {
+     projects.value.push({
+      task: task,
+      date: date,
+      theme: theme,
+      check: check,
+    });
+
+    //await createTask(iduser, task, date, theme, check);
 
     console.log(projects.value);
-  };
+  };*/
 
   return {
     tasks: computed(() => [...projects.value]),
-    addtask,
+    addTaskFront,
   };
 };
