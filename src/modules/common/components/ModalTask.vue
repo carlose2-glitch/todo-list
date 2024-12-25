@@ -104,7 +104,6 @@
 </template>
 
 <script lang="ts" setup>
-import { addTask, extractTask } from '@/modules/projects/store/listTaks';
 import { reactive, ref } from 'vue';
 
 interface Props {
@@ -116,7 +115,7 @@ const datas = defineProps<Props>();
 
 const emits = defineEmits<{
   close: [void];
-  information: [task: string, date: string, theme: string, check: boolean];
+  information: [iduser: string, task: string, date: string, theme: string, check: boolean];
 }>();
 
 interface values {
@@ -148,12 +147,7 @@ const submitValue = () => {
     console.log(data.task);
     console.log(datas.id);
 
-    //addTask(datas.id, data.task, invertDate, data.theme, true);
-    //const c = extractTask();
-
-    //c.addTaskFront(data.task, invertDate, data.theme, true);
-
-    emits('information', data.task, invertDate, data.theme, true);
+    emits('information', datas.id, data.task, invertDate, data.theme, true);
     data.task = '';
     data.date = '';
 

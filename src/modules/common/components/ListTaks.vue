@@ -107,7 +107,7 @@ const deleteTask = () => {
   console.log('eliminar');
 };
 
-const colageTaks = extractTask();
+const colageTaks = await extractTask(datas.id);
 
-console.log(colageTaks.tasks.value);
+//console.log(colageTaks.tasks.value);
 </script>
