@@ -30,3 +30,12 @@ export const getTasks = async (id: string) => {
     throw new Error('Error interno');
   }
 };
+
+export const deleteTask = async (id: string) => {
+  try {
+    const { data } = await usersApis.delete(`/users/deleteTask/${id}`);
+    return data;
+  } catch (error) {
+    throw new Error('Error interno');
+  }
+};

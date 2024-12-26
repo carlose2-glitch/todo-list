@@ -1,5 +1,5 @@
 //import { createTask } from '@/modules/auth/actions';
-import { createTask, getTasks } from '@/modules/auth/actions';
+import { createTask, deleteTask, getTasks } from '@/modules/auth/actions';
 import type { taskApi } from '@/modules/interfaces/getTaks.interfaces';
 // import type { taskList } from '@/modules/interfaces/task.interfaces';
 
@@ -41,7 +41,6 @@ export const extractTask = async (id: string) => {
     check: boolean,
   ) => {
     const idTask = await addTask(iduser, task, date, theme, check);
-    console.log(idTask._id);
 
     projects.value.push({
       _id: idTask._id,
@@ -51,11 +50,21 @@ export const extractTask = async (id: string) => {
       theme: theme,
       check: check,
     });
-    console.log(projects.value);
+  };
+
+  const deleteTaskk = async (id: string) => {
+    //econtrar el indice de la tarea
+    const find = projects.value.findIndex((Element) => Element._id === id);
+    //borrar la tarea front
+    projects.value.splice(find, 1);
+    //borrar la tarea backend
+
+    await deleteTask(id);
   };
 
   return {
     tasks: computed(() => [...projects.value]),
     addTaskFront,
+    deleteTaskk,
   };
 };

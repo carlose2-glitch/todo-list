@@ -105,7 +105,7 @@ const changeStyle = (v: any) => {
 };
 
 const deleteTask = (id: string) => {
-  console.log(id);
+  colageTaks.deleteTaskk(id);
 };
 
 const colageTaks = await extractTask(datas.id);
