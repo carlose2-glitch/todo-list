@@ -31,7 +31,7 @@ export const extractTask = async (id: string) => {
   const projects = ref<taskApi[]>(extract);
 
   console.log(projects.value);
-
+  //agregar tarea
   const addTaskFront = async (
     _id: string,
     iduser: string,
