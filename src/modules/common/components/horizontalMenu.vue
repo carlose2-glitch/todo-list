@@ -88,6 +88,7 @@
           </li>
 
           <button
+            v-on:click="closeSection()"
             type="button"
             class="text-white bg-gradient-to-r from-red-400 via-red-500 to-red-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-red-300 dark:focus:ring-red-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
           >
@@ -112,5 +113,10 @@ const habilityButton = () => {
   return clickNav.value === true
     ? 'hidden w-full md:block md:w-auto animate-buttonHamburguer'
     : 'block md:w-auto animate-buttonHamburguer absolute top-1/4 w-[90%]';
+};
+
+const closeSection = () => {
+  localStorage.removeItem('token');
+  location.reload();
 };
 </script>
