@@ -26,11 +26,24 @@ const addTask = (iduser: string, task: string, date: string, theme: string, chec
   return createTask(iduser, task, date, theme, check);
 };
 
-export const extractTask = async (id: string) => {
+export const extractTask = async (id: string, them: string) => {
   const extract: taskApi[] = await getTasks(id);
   const projects = ref<taskApi[]>(extract);
+  const projectsSelect = ref<taskApi[]>([]);
+  const themeValue = ref('');
 
-  console.log(projects.value);
+  const projectsSelectFunction = (t: string) => {
+    themeValue.value = t;
+    projectsSelect.value = projects.value.filter((Element) => Element.theme === t);
+
+    if (t === 'all') {
+      projectsSelect.value = projects.value;
+    } else {
+      projectsSelect.value = projects.value.filter((Element) => Element.theme === t);
+    }
+  };
+  projectsSelectFunction(them);
+  console.log(projectsSelect.value);
   //agregar tarea
   const addTaskFront = async (
     _id: string,
@@ -50,6 +63,8 @@ export const extractTask = async (id: string) => {
       theme: theme,
       check: check,
     });
+
+    projectsSelectFunction(themeValue.value);
   };
 
   const deleteTaskk = async (id: string) => {
@@ -58,13 +73,15 @@ export const extractTask = async (id: string) => {
     //borrar la tarea front
     projects.value.splice(find, 1);
     //borrar la tarea backend
+    projectsSelectFunction(themeValue.value);
 
     await deleteTask(id);
   };
 
   return {
-    tasks: computed(() => [...projects.value]),
+    tasks: computed(() => [...projectsSelect.value]),
     addTaskFront,
     deleteTaskk,
+    projectsSelectFunction,
   };
 };

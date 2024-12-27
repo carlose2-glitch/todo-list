@@ -1,4 +1,6 @@
 <template>
+  <horizontal-menu :id="id" class="w-full" @change-theme="colageTaks.projectsSelectFunction" />
+
   <div class="bg-slate-200 text-slate-700 mx-2 w-[90%]">
     <div class="max-w-lg mx-auto my-10 bg-white p-8 rounded-xl shadow shadow-slate-300">
       <div class="flex flex-row justify-between items-center">
@@ -16,7 +18,7 @@
         <div
           class="flex justify-between items-center border-b border-slate-200 py-3 px-2 border-l-4 border-l-transparent bg-gradient-to-r from-transparent to-transparent hover:from-slate-100 transition ease-linear duration-150"
           v-for="task in colageTaks.tasks.value"
-          v-bind:key="task.theme"
+          v-bind:key="task._id"
           :id="task._id"
         >
           <div class="inline-flex items-center space-x-2">
@@ -133,6 +135,7 @@ import { extractTask } from '@/modules/projects/store/listTaks';
 import { ref } from 'vue';
 import IconsVue from './IconsVue.vue';
 import ModalTask from './ModalTask.vue';
+import HorizontalMenu from './horizontalMenu.vue';
 
 interface Props {
   id: string;
@@ -165,7 +168,7 @@ const deleteTask = (id: string) => {
 };
 //
 
-const colageTaks = await extractTask(datas.id);
+const colageTaks = await extractTask(datas.id, 'all');
 
 //console.log(colageTaks.tasks.value);
 </script>

@@ -1,7 +1,5 @@
 <template>
   <div class="bg-gray-200 h-screen w-full flex flex-col" v-if="value">
-    <!-- Header -->
-    <horizontal-menu />
     <!-- Main -->
     <main-user :id="id" />
   </div>
@@ -15,7 +13,6 @@
 <script lang="ts" setup>
 import { extractLocalStorage } from '@/modules/auth/actions';
 import headerPage from '@/modules/common/components/headerPage.vue';
-import HorizontalMenu from '@/modules/common/components/horizontalMenu.vue';
 import mainPage from '@/modules/common/components/mainPage.vue';
 import MainUser from '@/modules/common/components/MainUser.vue';
 import { ref } from 'vue';
