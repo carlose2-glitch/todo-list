@@ -11,7 +11,9 @@ const isAuthenticatedGuard = async (
 
   if (extractLocal) {
     try {
-      await extractLocalStorage(extractLocal);
+      const data = await extractLocalStorage(extractLocal);
+      console.log(data.id);
+      return next({ path: `/listTask/${data.id}` });
     } catch (error) {
       console.log(error);
       return next();
@@ -19,7 +21,6 @@ const isAuthenticatedGuard = async (
   } else {
     return next();
   }
-  return next({ name: 'listTask' });
 };
 
 export default isAuthenticatedGuard;
