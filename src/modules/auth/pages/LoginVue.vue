@@ -108,7 +108,7 @@ const formData = async () => {
   if (r === 'Contraseña incorrecta' || r === 'Usuario no existe') {
     toast.error(r);
   } else {
-    localStorage.setItem('token', r);
+    localStorage.setItem('token', r.token);
 
     if (form[2] === true) {
       localStorage.setItem('user', JSON.stringify({ user: form[0], pass: form[1] }));
@@ -116,7 +116,7 @@ const formData = async () => {
       localStorage.removeItem('user');
     }
 
-    router.replace({ name: 'home' });
+    router.replace({ path: `/listTask/${r.id}` });
   }
 };
 

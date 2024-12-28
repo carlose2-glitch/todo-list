@@ -112,10 +112,12 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue';
+import { useRouter } from 'vue-router';
 
 interface Props {
   id: string;
 }
+const router = useRouter();
 
 const emit = defineEmits<{
   changeTheme: [theme: string];
@@ -139,7 +141,8 @@ const habilityButton = () => {
 
 const closeSection = () => {
   localStorage.removeItem('token');
-  location.reload();
+  console.log('aqui');
+  router.replace({ name: 'home' });
 };
 
 const selectTheme = async (theme: string) => {

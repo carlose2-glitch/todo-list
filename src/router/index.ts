@@ -1,12 +1,29 @@
+import isAuthenticatedGuard from '@/guards/is-authenticated.guards';
+import isAuthenticatedIdUser from '@/guards/is-authenticatedIdUser.guards';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
+
   routes: [
     {
       path: '/',
       name: 'home',
-      component: () => import('@/modules/projects/layouts/layoutsPage.vue'),
+      beforeEnter: [isAuthenticatedGuard],
+
+      component: () => import('@/modules/projects/layouts/layoutsPagehome.vue'),
+    },
+    {
+      path: '/listTask/:id',
+      name: 'listTask',
+      beforeEnter: [isAuthenticatedIdUser],
+      props: (route) => {
+        console.log(route);
+        return {
+          id: route.params.id,
+        };
+      },
+      component: () => import('@/modules/projects/layouts/layoutsPageTaskList.vue'),
     },
 
     {
@@ -25,6 +42,11 @@ const router = createRouter({
           component: () => import('@/modules/auth/pages/SignVue.vue'),
         },
       ],
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'notFound',
+      component: () => import('@/modules/projects/layouts/notFound.vue'),
     },
   ],
 });
