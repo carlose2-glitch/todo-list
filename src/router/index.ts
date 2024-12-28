@@ -18,7 +18,6 @@ const router = createRouter({
       name: 'listTask',
       beforeEnter: [isAuthenticatedIdUser],
       props: (route) => {
-        console.log(route);
         return {
           id: route.params.id,
         };

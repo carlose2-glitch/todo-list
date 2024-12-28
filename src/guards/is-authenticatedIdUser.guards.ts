@@ -7,7 +7,6 @@ const isAuthenticatedIdUser = async (
   next: NavigationGuardNext,
 ) => {
   const extractLocal = localStorage.getItem('token');
-  console.log(extractLocal);
 
   if (extractLocal) {
     try {

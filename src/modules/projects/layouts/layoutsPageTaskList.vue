@@ -12,7 +12,5 @@ interface Props {
   id: string;
 }
 
-const data = defineProps<Props>();
-
-console.log(data.id);
+defineProps<Props>();
 </script>

@@ -97,10 +97,6 @@ const evaluateIfEmpty = () => {
 };
 
 const formData = async () => {
-  console.log(data.user);
-  console.log(data.password);
-  console.log(data.rememberMe);
-
   const form: readonly [string, string, boolean] = [data.user, data.password, data.rememberMe];
 
   const r = await loginUser(form[0], form[1]);

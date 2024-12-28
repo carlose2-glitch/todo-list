@@ -123,9 +123,7 @@ const emit = defineEmits<{
   changeTheme: [theme: string];
 }>();
 
-const idUser = defineProps<Props>();
-
-console.log(idUser.id);
+defineProps<Props>();
 
 const clickNav = ref<boolean>(true);
 
@@ -141,7 +139,7 @@ const habilityButton = () => {
 
 const closeSection = () => {
   localStorage.removeItem('token');
-  console.log('aqui');
+
   router.replace({ name: 'home' });
 };
 

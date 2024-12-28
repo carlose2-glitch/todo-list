@@ -43,7 +43,7 @@ export const extractTask = async (id: string, them: string) => {
     }
   };
   projectsSelectFunction(them);
-  console.log(projectsSelect.value);
+
   //agregar tarea
   const addTaskFront = async (
     _id: string,
