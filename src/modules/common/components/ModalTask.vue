@@ -151,8 +151,6 @@ const submitValue = () => {
 */
   if (data.task.trim() !== '' && data.date !== '') {
     const invertDate = data.date.split('-').reverse().join('-');
-    console.log(data.task);
-    console.log(datas.id);
 
     emits('information', '', datas.id, data.task, invertDate, data.theme, true);
     data.task = '';
