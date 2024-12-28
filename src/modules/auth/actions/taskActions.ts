@@ -39,3 +39,14 @@ export const deleteTask = async (id: string) => {
     throw new Error('Error interno');
   }
 };
+
+export const checkTaskValues = async (id: string, check: boolean) => {
+  try {
+    await usersApis.patch('/users/updatecheckTask', {
+      id,
+      check,
+    });
+  } catch (error) {
+    throw new Error();
+  }
+};

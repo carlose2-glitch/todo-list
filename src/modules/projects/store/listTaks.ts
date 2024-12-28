@@ -1,5 +1,5 @@
 //import { createTask } from '@/modules/auth/actions';
-import { createTask, deleteTask, getTasks } from '@/modules/auth/actions';
+import { checkTaskValues, createTask, deleteTask, getTasks } from '@/modules/auth/actions';
 import type { taskApi } from '@/modules/interfaces/getTaks.interfaces';
 // import type { taskList } from '@/modules/interfaces/task.interfaces';
 
@@ -78,10 +78,18 @@ export const extractTask = async (id: string, them: string) => {
     await deleteTask(id);
   };
 
+  const checkTask = async (id: string, check: boolean) => {
+    const find = projects.value.findIndex((Element) => Element._id === id);
+    projects.value[find].check = check;
+
+    await checkTaskValues(id, check);
+  };
+
   return {
     tasks: computed(() => [...projectsSelect.value]),
     addTaskFront,
     deleteTaskk,
     projectsSelectFunction,
+    checkTask,
   };
 };
